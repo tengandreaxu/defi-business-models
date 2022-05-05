@@ -28,6 +28,11 @@ def millions(x, pos):
     return "$%1.0fM" % (x * 10 ** (-6))
 
 
+def billions(x, pos):
+    """x value, pos positions"""
+    return "$%1.0fB" % (x * 10 ** (-9))
+
+
 class CryptoFees:
     def __init__(self):
         # *****************
@@ -138,6 +143,12 @@ class CryptoFees:
         tick = mtick.FuncFormatter(millions)
         ax.yaxis.set_major_formatter(tick)
 
+    def format_yticks_in_billions(self, ax):
+        """Format the y ticks to show dollar sign and format in millions"""
+
+        tick = mtick.FuncFormatter(billions)
+        ax.yaxis.set_major_formatter(tick)
+
     def format_xticks_using_concise_date_formatter(self, ax):
         """ "Format x ticks to use the concise date formatter
         source: https://matplotlib.org/stable/gallery/text_labels_and_annotations/date.html
@@ -163,6 +174,44 @@ class CryptoFees:
         plt.legend(loc="upper left")
         if len(ylim) > 0:
             ax = plt.gca()
+            ax.set_ylim(ylim)
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.plots_folder, file_name))
+        plt.close()
+
+    def plot_crypto_fees_super_impose(
+        self,
+        crypto_fees: pd.DataFrame,
+        market_caps: pd.DataFrame,
+        file_name: str,
+        use_millions_ax2: Optional[bool] = False,
+        ylim: Optional[list] = [],
+    ):
+        fig, ax = plt.subplots()
+        ax.plot(crypto_fees["date"], crypto_fees["fee"], label="Revenue", color="black")
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Revenue")
+
+        ax2 = ax.twinx()
+        ax2.plot(
+            market_caps["date"],
+            market_caps["market_caps"],
+            label="Market Cap",
+            color="brown",
+        )
+
+        ax2.set_ylabel("Market Cap")
+
+        self.format_xticks_using_concise_date_formatter(ax)
+        self.format_yticks_in_millions(ax)
+
+        if use_millions_ax2:
+            self.format_yticks_in_millions(ax2)
+        else:
+            self.format_yticks_in_billions(ax2)
+        ax.legend(loc="upper left")
+        if len(ylim) > 0:
+
             ax.set_ylim(ylim)
         plt.tight_layout()
         plt.savefig(os.path.join(self.plots_folder, file_name))

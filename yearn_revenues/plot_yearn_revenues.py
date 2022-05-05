@@ -1,5 +1,6 @@
 import pandas as pd
 from datetime import datetime
+from coingecko.CoinGecko import CoinGecko
 from cryptofees.CryptoFees import CryptoFees
 from util.time_series import smoothing_rolling_window
 
@@ -48,7 +49,15 @@ if __name__ == "__main__":
     Plots YFI revenue
     """
     yearn = get_yearn_time_series()
+    coingecko = CoinGecko()
+    market_cap = coingecko.load_data("yearn")
+    market_cap = smoothing_rolling_window(market_cap, "market_caps", 30)
     yearn = smoothing_rolling_window(yearn, "fee", 30)
     yearn = yearn[yearn.date < datetime.fromisoformat("2021-12-02").date()]
+    corr = yearn.fee.corr(market_cap.market_caps)
+    print(f"Revenue Market Cap Corr: {corr}")
     crypto_fees = CryptoFees()
-    crypto_fees.plot_crypto_fees(yearn, "YFI", "yearn.png", ylim=[0, 10 * (10**6)])
+
+    crypto_fees.plot_crypto_fees_super_impose(
+        yearn, market_cap, "yearn.png", use_millions_ax2=True, ylim=[0, 10 * (10**6)]
+    )
