@@ -15,11 +15,14 @@ mkdir data;
 # 2. Get Protocol Fees
 python3 cryptofees/pull_all_time_fees.py;
 
+# 3. Get Coingecko Market Caps
+./curls/get_market_caps.sh
+
 # 3. Produce Plots - AAVE & Uniswap
 python3 cryptofees/plot_uniswap.py;
 python3 cryptofees/plot_aave.py;
 
-# 4. Produce Plots - YFI
+# 4. Procue Plots - YFI
 ./yearn_revenues/yearn_revenues_curl.sh;
 python3 yearn_revenues/plot_yearn_revenues.py;
 
