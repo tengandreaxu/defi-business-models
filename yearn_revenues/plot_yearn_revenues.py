@@ -59,5 +59,9 @@ if __name__ == "__main__":
     crypto_fees = CryptoFees()
 
     crypto_fees.plot_crypto_fees_super_impose(
-        yearn, market_cap, "yearn.png", use_millions_ax2=True, ylim=[0, 10 * (10**6)]
+        yearn,
+        market_cap,
+        "yearn.pdf",
+        title="YFI"
+        ylim=[0, 10 * (10**6)],
     )

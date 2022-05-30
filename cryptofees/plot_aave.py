@@ -16,5 +16,5 @@ if __name__ == "__main__":
     corr = aave.fee.corr(market_cap.market_caps)
     print(f"Revenue Market Cap Corr: {corr}")
     crypto_fees.plot_crypto_fees_super_impose(
-        aave, market_cap, "aave.png", ylim=[0, 10 * (10**6)]
+        aave, market_cap, "aave.pdf", title="AAVE", ylim=[0, 10 * (10**6)]
     )

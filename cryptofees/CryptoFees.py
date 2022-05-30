@@ -30,7 +30,7 @@ def millions(x, pos):
 
 def billions(x, pos):
     """x value, pos positions"""
-    return "$%1.0fB" % (x * 10 ** (-9))
+    return "$%1.1fB" % (x * 10 ** (-9))
 
 
 class CryptoFees:
@@ -184,13 +184,15 @@ class CryptoFees:
         crypto_fees: pd.DataFrame,
         market_caps: pd.DataFrame,
         file_name: str,
-        use_millions_ax2: Optional[bool] = False,
+        title: Optional[str] = "",
         ylim: Optional[list] = [],
     ):
         fig, ax = plt.subplots()
-        ax.plot(crypto_fees["date"], crypto_fees["fee"], label="Revenue", color="black")
+        ax.plot(
+            crypto_fees["date"], crypto_fees["fee"], label="Treasury", color="black"
+        )
         ax.set_xlabel("Date")
-        ax.set_ylabel("Revenue")
+        ax.set_ylabel("Treasury")
 
         ax2 = ax.twinx()
         ax2.plot(
@@ -201,18 +203,18 @@ class CryptoFees:
         )
 
         ax2.set_ylabel("Market Cap")
-
+        ax.set_title(title)
         self.format_xticks_using_concise_date_formatter(ax)
         self.format_yticks_in_millions(ax)
 
-        if use_millions_ax2:
-            self.format_yticks_in_millions(ax2)
-        else:
-            self.format_yticks_in_billions(ax2)
-        ax.legend(loc="upper left")
+        self.format_yticks_in_billions(ax2)
+
         if len(ylim) > 0:
 
             ax.set_ylim(ylim)
         plt.tight_layout()
+        fig.legend(
+            loc="upper left", bbox_to_anchor=(0.01, 1), bbox_transform=ax.transAxes
+        )
         plt.savefig(os.path.join(self.plots_folder, file_name))
         plt.close()
