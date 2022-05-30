@@ -1,3 +1,4 @@
+from click import style
 import requests
 import time
 import os
@@ -200,6 +201,7 @@ class CryptoFees:
             market_caps["market_caps"],
             label="Market Cap",
             color="brown",
+            linestyle="dashed",
         )
 
         ax2.set_ylabel("Market Cap")

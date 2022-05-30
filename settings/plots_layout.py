@@ -8,6 +8,7 @@ params = {
     "axes.labelweight": "bold",
     "xtick.labelsize": 12,
     "ytick.labelsize": 12,
-    "axes.titlesize": 12,
+    "axes.titlesize": 14,
+    "axes.titleweight": "bold",
 }
 pylab.rcParams.update(params)
