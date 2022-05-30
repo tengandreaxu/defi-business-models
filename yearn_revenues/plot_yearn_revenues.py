@@ -62,6 +62,6 @@ if __name__ == "__main__":
         yearn,
         market_cap,
         "yearn.pdf",
-        title="YFI"
+        title="YFI",
         ylim=[0, 10 * (10**6)],
     )

@@ -16,5 +16,5 @@ if __name__ == "__main__":
     corr = df.fee.corr(market_cap.market_caps)
     print(f"Revenue Market Cap Corr: {corr}")
     crypto_fees.plot_crypto_fees_super_impose(
-        df, market_cap, "uni.pdf", titel="UNI", ylim=[0, 10 * (10**6)]
+        df, market_cap, "uni.pdf", title="UNI", ylim=[0, 10 * (10**6)]
     )
